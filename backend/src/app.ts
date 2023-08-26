@@ -3,10 +3,14 @@ import * as bcrypt from 'bcrypt'
 import User from './models/UserSchema'
 import config from './config/confg'
 import * as jwt from 'jsonwebtoken'
+import * as cors from 'cors'
 
 const app: express.Express = express()
 
 app.use(express.json())
+
+// Configura CORS para permitir todas las solicitudes (en desarrollo)
+app.use(cors())
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 app.post('/login', async (req, res) => {

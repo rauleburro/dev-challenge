@@ -5,6 +5,8 @@ import { expressMiddleware } from '@apollo/server/express4'
 import { typeDefs } from './gql/typeDefs'
 import { resolvers } from './gql/resolvers/Users'
 import { connectDatabase } from './db'
+import * as cors from 'cors'
+import * as bodyParser from 'body-parser'
 
 const mount = async (): Promise<void> => {
   try {
@@ -16,16 +18,20 @@ const mount = async (): Promise<void> => {
     })
     await server.start()
     console.log('Apollo Server started')
-    app.use('/', expressMiddleware(server, {
-      context: async () => {
-        return {
-          dataSources: {
-            db
+    app.use(
+      '/',
+      cors(),
+      bodyParser.json(),
+      expressMiddleware(server, {
+        context: async () => {
+          return {
+            dataSources: {
+              db
+            }
           }
         }
-      }
-
-    }))
+      })
+    )
     console.log('Express middleware applied')
     app.listen(config.port)
     console.log(`Server listening on port ${config.port}`)
