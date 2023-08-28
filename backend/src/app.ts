@@ -1,39 +1,74 @@
 import * as express from 'express'
-import * as bcrypt from 'bcrypt'
-import User from './models/UserSchema'
-import config from './config/confg'
-import * as jwt from 'jsonwebtoken'
 import * as cors from 'cors'
+import { ApolloServer } from '@apollo/server'
+import { typeDefs } from './gql/typeDefs'
+import { resolvers } from './gql/resolvers/Users'
+import bodyParser = require('body-parser')
+import { expressMiddleware } from '@apollo/server/express4'
+import * as jwt from 'jsonwebtoken'
+import config from './config/confg'
+import User from './models/UserSchema'
+import { GraphQLError } from 'graphql'
 
-const app: express.Express = express()
-
-app.use(express.json())
-
-// Configura CORS para permitir todas las solicitudes (en desarrollo)
-app.use(cors())
-
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
-app.post('/login', async (req, res) => {
+const getUser = (token: string): any | null => {
   try {
-    const { email, password } = req.body
-
-    const user = await User.findOne({ email })
-
-    if (user == null) {
-      return res.status(404).json({ message: 'User not found' })
+    if (token != null) {
+      const verified = jwt.verify(token, config.jwt.secret)
+      const user = User.findOne({ _id: verified })
+      return user
     }
-    const isPasswordValid = await bcrypt.compare(password, user.password)
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid password' })
-    }
-
-    const token = jwt.sign({ id: user._id }, config.jwt.secret, { expiresIn: '1h' })
-
-    return res.status(200).json({ token })
   } catch (err) {
     console.log(err)
-    return res.status(500).json({ message: 'Internal server error' })
   }
-})
+  return null
+}
 
-export default app
+const initailizeApp = async (): Promise<express.Express> => {
+  const app: express.Express = express()
+
+  app.use(express.json())
+
+  app.use(cors())
+
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers
+  })
+  await server.start()
+  console.log('Apollo Server started')
+  app.use(
+    '/',
+    cors(),
+    bodyParser.json(),
+    expressMiddleware(server, {
+      context: async ({ req, res }) => {
+        const allowedOperations = ['Login', 'CreateUser', 'Jobs']
+
+        if (!allowedOperations.includes(req.body.operationName)) {
+          return {}
+        }
+
+        const token = req.headers.authorization ?? ''
+
+        const user = await getUser(token)
+
+        if (user == null) {
+          throw new GraphQLError('User is not authenticated', {
+            extensions: {
+              code: 'UNAUTHENTICATED',
+              http: { status: 401 }
+            }
+          })
+        }
+
+        return {
+          user
+        }
+      }
+    })
+  )
+
+  return app
+}
+
+export default initailizeApp

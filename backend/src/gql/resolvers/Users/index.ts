@@ -1,5 +1,9 @@
+import { GraphQLError } from 'graphql'
+import config from '../../../config/confg'
 import Job from '../../../models/JobSchema'
 import User from '../../../models/UserSchema'
+import * as bcrypt from 'bcrypt'
+import * as jwt from 'jsonwebtoken'
 
 export const resolvers = {
   Query: {
@@ -17,26 +21,120 @@ export const resolvers = {
     }
   },
   Mutation: {
-    createUser: async (_: any, { name, email, password }: any, { dataSources }: any) => {
+    login: async (_: any, { email, password }: any, { dataSources }: any) => {
+      try {
+        const user = await User.findOne({ email })
+        if (user == null) {
+          return null
+        }
+        const valid = await bcrypt.compare(password, user.password)
+        if (!valid) {
+          return null
+        }
+        const token = jwt.sign(
+          {
+            id: user._id
+          },
+          config.jwt.secret
+        )
+        return token
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    createUser: async (
+      _: any,
+      { name, email, password }: any,
+      { dataSources }: any
+    ) => {
       try {
         const user = await User.create({ name, email, password })
         return await User.findOne({ _id: user._id })
       } catch (err) {
         console.log(err)
+        throw new GraphQLError('User already exists', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            http: { status: 400 }
+          }
+        })
       }
-      return null
     },
-    updateUser: async (_: any, { id, name, email, password }: any, { dataSources }: any) => {
+    updateUser: async (
+      _: any,
+      { id, name, email, password }: any,
+      { dataSources }: any
+    ) => {
       return await User.findOneAndUpdate({ id }, { name, email, password })
     },
     deleteUser: async (_: any, { id }: any, { dataSources }: any) => {
       return await User.findOneAndDelete({ id })
     },
-    createJob: async (_: any, { name, offerStartDate, offerEndDate, active, company, ratePerHour, tools, disciplines, jobDescription, jobType, location }: any, { dataSources }: any) => {
-      return await Job.create({ name, offerStartDate, offerEndDate, active, company, ratePerHour, tools, disciplines, jobDescription, jobType, location })
+    createJob: async (
+      _: any,
+      {
+        name,
+        offerStartDate,
+        offerEndDate,
+        active,
+        company,
+        ratePerHour,
+        tools,
+        disciplines,
+        jobDescription,
+        jobType,
+        location
+      }: any,
+      { dataSources }: any
+    ) => {
+      return await Job.create({
+        name,
+        offerStartDate,
+        offerEndDate,
+        active,
+        company,
+        ratePerHour,
+        tools,
+        disciplines,
+        jobDescription,
+        jobType,
+        location
+      })
     },
-    updateJob: async (_: any, { id, name, offerStartDate, offerEndDate, active, company, ratePerHour, tools, disciplines, jobDescription, jobType, location }: any, { dataSources }: any) => {
-      return await Job.findOneAndUpdate({ id }, { name, offerStartDate, offerEndDate, active, company, ratePerHour, tools, disciplines, jobDescription, jobType, location })
+    updateJob: async (
+      _: any,
+      {
+        id,
+        name,
+        offerStartDate,
+        offerEndDate,
+        active,
+        company,
+        ratePerHour,
+        tools,
+        disciplines,
+        jobDescription,
+        jobType,
+        location
+      }: any,
+      { dataSources }: any
+    ) => {
+      return await Job.findOneAndUpdate(
+        { id },
+        {
+          name,
+          offerStartDate,
+          offerEndDate,
+          active,
+          company,
+          ratePerHour,
+          tools,
+          disciplines,
+          jobDescription,
+          jobType,
+          location
+        }
+      )
     },
     deleteJob: async (_: any, { id }: any, { dataSources }: any) => {
       return await Job.findByIdAndDelete({ id })
