@@ -101,16 +101,21 @@ const JobPage = () => {
             <h3 className="text-3xl font-bold text-gray-700 dark:text-white">
               {job.name}
             </h3>
-
-            {job.applied ? (
-              <p className="text-green-600 px-4 py-2 rounded-md ">Applied</p>
-            ) : (
-              <Button
-                text="Apply"
-                type="button"
-                disabled={applyLoading}
-                onClick={handleApply}
-              />
+            {user?.role == "Talent" && (
+              <>
+                {job.applied ? (
+                  <p className="text-green-600 px-4 py-2 rounded-md ">
+                    Applied
+                  </p>
+                ) : (
+                  <Button
+                    text="Apply"
+                    type="button"
+                    disabled={applyLoading}
+                    onClick={handleApply}
+                  />
+                )}
+              </>
             )}
 
             {isMine && (
