@@ -22,6 +22,7 @@ export const typeDefs = gql`
     jobType: String
     location: String!
     user: ID
+    applied: Boolean
   }
 
   type AuthPayload {
@@ -81,5 +82,6 @@ export const typeDefs = gql`
       location: String
     ): Job!
     deleteJob(id: ID!): Float!
+    applyToJob(id: ID!): Job!
   }
 `

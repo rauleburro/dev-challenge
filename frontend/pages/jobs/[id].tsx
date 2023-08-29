@@ -5,6 +5,7 @@ import Dashboard from "../dashboard";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/store/authSlice";
 import { useCallback } from "react";
+import Button from "@/components/Button";
 
 const GET_JOB = gql`
   query Job($jobId: ID!) {
@@ -22,6 +23,7 @@ const GET_JOB = gql`
       jobType
       location
       user
+      applied
     }
   }
 `;
@@ -34,12 +36,39 @@ const DELETE_JOB = gql`
   }
 `;
 
+const APPLY_JOB = gql`
+  mutation ApplyToJob($applyToJobId: ID!) {
+    applyToJob(id: $applyToJobId) {
+      id
+      name
+      offerStartDate
+      offerEndDate
+      active
+      company
+      ratePerHour
+      tools
+      disciplines
+      jobDescription
+      jobType
+      location
+      user
+      applied
+    }
+  }
+`;
+
 const JobPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const { loading, error, data } = useQuery(GET_JOB, {
     variables: { jobId: id },
   });
+  const [applyJob, { loading: applyLoading, error: applyError }] = useMutation(
+    APPLY_JOB,
+    {
+      variables: { applyToJobId: id },
+    }
+  );
   const [deleteJob, { loading: deleteLoading, error: deleteError }] =
     useMutation(DELETE_JOB, {
       variables: { deleteJobId: id },
@@ -50,6 +79,12 @@ const JobPage = () => {
     confirm("Are you sure you want to delete this job?") && (await deleteJob());
     router.push("/jobs");
   }, [deleteJob, router]);
+
+  const handleApply = useCallback(async () => {
+    confirm("Are you sure you want to apply to this job?") &&
+      (await applyJob());
+    router.push("/jobs");
+  }, [applyJob, router]);
 
   if (loading) return <p>Loading...</p>;
 
@@ -66,6 +101,17 @@ const JobPage = () => {
             <h3 className="text-3xl font-bold text-gray-700 dark:text-white">
               {job.name}
             </h3>
+
+            {job.applied ? (
+              <p className="text-green-600 px-4 py-2 rounded-md ">Applied</p>
+            ) : (
+              <Button
+                text="Apply"
+                type="button"
+                disabled={applyLoading}
+                onClick={handleApply}
+              />
+            )}
 
             {isMine && (
               <button

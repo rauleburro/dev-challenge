@@ -51,16 +51,19 @@ const initailizeApp = async (): Promise<express.Express> => {
           'UpdateJob',
           'DeleteUser',
           'UpdateUser',
-          'MyPosts'
+          'MyPosts',
+          'ApplyToJob'
         ]
-
-        if (!allowedOperations.includes(req.body.operationName)) {
-          return {}
-        }
 
         const token = req.headers.authorization ?? ''
 
         const user = await getUser(token)
+
+        if (!allowedOperations.includes(req.body.operationName)) {
+          return {
+            user
+          }
+        }
 
         if (user == null) {
           throw new GraphQLError('User is not authenticated', {

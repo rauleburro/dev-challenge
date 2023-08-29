@@ -13,8 +13,26 @@ export const resolvers = {
     user: async (_: any, { id }: any) => {
       return await User.findOne({ _id: id })
     },
-    job: async (_: any, { id }: any) => {
-      return await Job.findOne({ _id: id })
+    job: async (_: any, { id }: any, { user }: any) => {
+      const job = await Job.findOne({ _id: id })
+      if (job == null) {
+        throw new GraphQLError('Job does not exist', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            http: { status: 400 }
+          }
+        })
+      }
+
+      job.applied = false
+
+      if (user != null) {
+        if (job.applicants.includes(user.id)) {
+          job.applied = true
+        }
+      }
+
+      return job
     },
     jobs: async (_: any, { query }: any) => {
       const jobs = await Job.find()
@@ -55,10 +73,7 @@ export const resolvers = {
         console.log(err)
       }
     },
-    createUser: async (
-      _: any,
-      { name, email, password, role }: any
-    ) => {
+    createUser: async (_: any, { name, email, password, role }: any) => {
       try {
         const user = await User.create({ name, email, password, role })
         const token = jwt.sign(user.toJSON(), config.jwt.secret, {
@@ -166,6 +181,28 @@ export const resolvers = {
         })
       }
       return await Job.findByIdAndDelete({ id })
+    },
+    applyToJob: async (_: any, { id }: any, { user }: any) => {
+      const job = await Job.findOne({ _id: id })
+      if (job == null) {
+        throw new GraphQLError('Job does not exist', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            http: { status: 400 }
+          }
+        })
+      }
+      if (job?.user === user.id) {
+        throw new GraphQLError('User is not authorized', {
+          extensions: {
+            code: 'UNAUTHORIZED',
+            http: { status: 401 }
+          }
+        })
+      }
+      job.applicants.push(user.id)
+      await job.save()
+      return job
     }
   }
 }

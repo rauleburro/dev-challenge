@@ -58,6 +58,11 @@ const JobSchema: mongoose.Schema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: false
+  },
+  applicants: {
+    type: [mongoose.Schema.Types.ObjectId],
+    ref: 'User',
+    required: false
   }
 })
 
