@@ -14,7 +14,7 @@ const AsideMenuItem = ({ label, href, selected }: AsideMenuItemProps) => {
       <Link href={href}>
         <div
           aria-label="dashboard"
-          className={`relative flex items-center space-x-4 rounded-xl px-4 py-3 ${selected ? selectedStyle : ""} hover:bg-gradient-to-r hover:from-sky-600 hover:to-cyan-400 hover:text-white`}
+          className={`relative flex items-center space-x-4 rounded-xl px-4 py-3 ${selected ? selectedStyle : ""} hover:bg-gradient-to-r hover:from-sky-600 hover:to-cyan-400 hover:text-white dark:text-white`}
         >
           <svg className="-ml-1 h-6 w-6" viewBox="0 0 24 24" fill="none">
             <path

@@ -2,9 +2,10 @@ import { on } from "events";
 
 interface SearchProps {
   search: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  initial: string | string [];
 }
 
-const Search = ({ search }: SearchProps) => {
+const Search = ({ search, initial }: SearchProps) => {
   return (
     <>
       <div className="flex flex-1 items-center text-gray-400 focus-within:text-cyan-400 m-5">
@@ -27,6 +28,7 @@ const Search = ({ search }: SearchProps) => {
           name="leadingIcon"
           id="leadingIcon"
           placeholder="Search here"
+          value={initial}
           className="outline-none w-full rounded-xl border border-gray-300 py-2.5 pl-14 pr-4 text-sm text-gray-600 transition focus:border-cyan-300 dark:bg-gray-900 dark:border-gray-700"
         />
       </div>

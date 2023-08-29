@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import AsideMenuItem from "./AssideMenuItem";
+import AsideMenuItem from "./AsideMenuItem";
 
 interface AsideProps {}
 
