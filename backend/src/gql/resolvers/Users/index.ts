@@ -27,9 +27,7 @@ export const resolvers = {
       job.applied = false
 
       if (user != null) {
-        if (job.applicants.includes(user.id)) {
-          job.applied = true
-        }
+        job.applied = job.applicants.includes(user.id)
       }
 
       return job
