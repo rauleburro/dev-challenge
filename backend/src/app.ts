@@ -42,7 +42,16 @@ const initailizeApp = async (): Promise<express.Express> => {
     bodyParser.json(),
     expressMiddleware(server, {
       context: async ({ req, res }) => {
-        const allowedOperations = ['Login', 'CreateUser', 'Jobs']
+        console.log(req.body.operationName)
+
+        const allowedOperations = [
+          'User',
+          'CreateJob',
+          'DeleteJob',
+          'UpdateJob',
+          'DeleteUser',
+          'UpdateUser'
+        ]
 
         if (!allowedOperations.includes(req.body.operationName)) {
           return {}

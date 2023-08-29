@@ -31,13 +31,12 @@ export const resolvers = {
         if (!valid) {
           return null
         }
-        const token = jwt.sign(
-          {
-            id: user._id
-          },
-          config.jwt.secret
-        )
-        return token
+        const token = jwt.sign(user.toJSON(), config.jwt.secret, {
+          expiresIn: '1d'
+        })
+        return {
+          token
+        }
       } catch (err) {
         console.log(err)
       }
@@ -49,7 +48,12 @@ export const resolvers = {
     ) => {
       try {
         const user = await User.create({ name, email, password })
-        return await User.findOne({ _id: user._id })
+        return {
+          token: jwt.sign(user.toJSON(), config.jwt.secret, {
+            expiresIn: '1d'
+          }),
+          user
+        }
       } catch (err) {
         console.log(err)
         throw new GraphQLError('User already exists', {

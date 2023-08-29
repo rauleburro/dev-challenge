@@ -26,6 +26,11 @@ type Job {
   updatedAt: String!
 }
 
+type AuthPayload {
+  token: String
+  user: User
+}
+
 type Query {
   users: [User!]!
   user(id: ID!): User!
@@ -34,8 +39,8 @@ type Query {
 }
 
 type Mutation {
-  login(email: String!, password: String!): String!
-  createUser(name: String!, email: String!, password: String!): User!
+  login(email: String!, password: String!): AuthPayload!
+  createUser(name: String!, email: String!, password: String!): AuthPayload!
   updateUser(id: ID!, name: String, email: String, password: String): User!
   deleteUser(id: ID!): User!
   createJob(name: String!, offerStartDate: String!, offerEndDate: String!, active: Boolean!, company: String!, ratePerHour: Float!, tools: [String!]!, disciplines: [String!]!, jobDescription: String!, jobType: String!, location: String!): Job!
