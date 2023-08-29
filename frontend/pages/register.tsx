@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
+import CustomSelectField from "@/components/CustomSelectField";
 import { login } from "@/store/authSlice";
 import { gql, useMutation } from "@apollo/client";
 import { Field, Form, Formik, FormikErrors } from "formik";
@@ -9,14 +10,20 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
+enum Role {
+  Talent = "Talent",
+  Recruiter = "Recruiter",
+}
+
 const CREATE_USER = gql`
-  mutation CreateUser($name: String!, $email: String!, $password: String!) {
-    createUser(name: $name, email: $email, password: $password) {
+  mutation CreateUser($name: String!, $email: String!, $password: String!, $role: String!) {
+    createUser(name: $name, email: $email, password: $password, role: $role) {
       token
       user {
         id
         name
         email
+        role
       }
     }
   }
@@ -27,6 +34,7 @@ interface CreateUserFormValues {
   email: string;
   password: string;
   confirmPassword: string;
+  role: Role;
 }
 
 const Register = () => {
@@ -39,6 +47,7 @@ const Register = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    role: Role.Talent,
   };
 
   useEffect(() => {
@@ -98,6 +107,7 @@ const Register = () => {
                       name: values.name,
                       email: values.email,
                       password: values.password,
+                      role: values.role,
                     },
                   });
                 }}
@@ -106,6 +116,7 @@ const Register = () => {
                   <Form className="space-y-8">
                     <CustomField label="Name" name="name" type="text" />
                     <CustomField label="Email" name="email" type="email" />
+                    <CustomSelectField label="Role" name="role" options={Object.values(Role)} />
                     <CustomField
                       label="Password"
                       name="password"

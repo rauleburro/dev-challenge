@@ -48,7 +48,7 @@ const Aside = ({}: AsideProps) => {
             href="/jobs"
             selected={router.pathname === "/jobs"}
           />
-          {user && (
+          {user && user.role === 'Recruiter' && (
             <AsideMenuItem
               label="My posts"
               href="/posts"

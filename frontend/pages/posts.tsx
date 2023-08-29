@@ -1,8 +1,5 @@
-import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
-import Search from "@/components/Search";
 import { useCallback, useState } from "react";
-import JobList from "@/components/JobList";
 import Button from "@/components/Button";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/store/authSlice";
@@ -18,7 +15,7 @@ const Jobs = () => {
   }, []);
 
   return (
-    <Dashboard >
+    <Dashboard>
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-3 flex flex-row justify-between">
           <h1 className="col-span-3 text-3xl font-bold text-gray-700 dark:text-white">
@@ -27,7 +24,7 @@ const Jobs = () => {
           <Link href="/jobs/create">
             {user && (
               <Button
-                text="Create Job"
+                text="Post a job"
                 type="button"
                 onClick={() => {}}
                 disabled={false}

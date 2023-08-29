@@ -16,7 +16,8 @@ const LOGIN = gql`
       user {
         email
         id
-        name
+        name,
+        role
       }
     }
   }

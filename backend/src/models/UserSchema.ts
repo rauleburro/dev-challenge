@@ -21,10 +21,10 @@ const UserSchema: mongoose.Schema = new mongoose.Schema({
     default: Date.now
   },
   updatedAt: Date,
-  roles: {
-    type: [String],
-    default: ['user'],
-    enum: ['user', 'admin']
+  role: {
+    type: String,
+    default: 'talent',
+    enum: ['Talent', 'Recruiter']
   }
 })
 

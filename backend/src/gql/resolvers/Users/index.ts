@@ -57,10 +57,10 @@ export const resolvers = {
     },
     createUser: async (
       _: any,
-      { name, email, password }: any
+      { name, email, password, role }: any
     ) => {
       try {
-        const user = await User.create({ name, email, password })
+        const user = await User.create({ name, email, password, role })
         const token = jwt.sign(user.toJSON(), config.jwt.secret, {
           expiresIn: '1d'
         })
@@ -155,7 +155,16 @@ export const resolvers = {
         }
       )
     },
-    deleteJob: async (_: any, { id }: any, { dataSources }: any) => {
+    deleteJob: async (_: any, { id }: any, { user }: any) => {
+      const job = await Job.findOne({ _id: id })
+      if (job?.user !== user.id) {
+        throw new GraphQLError('User is not authorized', {
+          extensions: {
+            code: 'UNAUTHORIZED',
+            http: { status: 401 }
+          }
+        })
+      }
       return await Job.findByIdAndDelete({ id })
     }
   }

@@ -26,7 +26,7 @@ const Jobs = () => {
             Jobs
           </h1>
           <Link href="/jobs/create">
-            {user && (
+            {user && user.role == 'Recruiter' && (
               <Button
                 text="Post a job"
                 type="button"

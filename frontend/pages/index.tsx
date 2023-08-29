@@ -77,7 +77,7 @@ export default function Home() {
                   </ul>
                 </div>
 
-                {!user ? (
+                {!user && (
                   <div className="w-full space-y-2 border-primary/10 dark:border-gray-700 flex flex-col -ml-1 sm:flex-row lg:space-y-0 md:w-max lg:border-l">
                     <Link
                       href="/register"
@@ -96,7 +96,8 @@ export default function Home() {
                       </span>
                     </Link>
                   </div>
-                ) : (
+                )}
+                {user && user.role === "Recruiter" && (
                   <div className="w-full space-y-2 border-primary/10 dark:border-gray-700 flex flex-col -ml-1 sm:flex-row lg:space-y-0 md:w-max lg:border-l">
                     <Link
                       href="/posts"
