@@ -7,21 +7,34 @@ import * as jwt from 'jsonwebtoken'
 
 export const resolvers = {
   Query: {
-    users: async (_: any, __: any, { dataSources }: any) => {
+    users: async (_: any, __: any) => {
       return await User.find()
     },
-    user: async (_: any, { id }: any, { dataSources }: any) => {
+    user: async (_: any, { id }: any) => {
       return await User.findOne({ _id: id })
     },
-    jobs: async (_: any, __: any, { dataSources }: any) => {
-      return await Job.find()
-    },
-    job: async (_: any, { id }: any, { dataSources }: any) => {
+    job: async (_: any, { id }: any) => {
       return await Job.findOne({ _id: id })
+    },
+    jobs: async (_: any, { query }: any) => {
+      const jobs = await Job.find()
+      if (query == null) {
+        return jobs
+      }
+      const regex = new RegExp(query, 'i')
+      if (jobs.length > 0) {
+        return jobs.filter((job: any) => {
+          return job.name.match(regex)
+        })
+      }
+      return jobs
+    },
+    myPosts: async (_: any, __: any, { user }: any) => {
+      return await Job.find({ user })
     }
   },
   Mutation: {
-    login: async (_: any, { email, password }: any, { dataSources }: any) => {
+    login: async (_: any, { email, password }: any) => {
       try {
         const user = await User.findOne({ email })
         if (user == null) {
@@ -44,8 +57,7 @@ export const resolvers = {
     },
     createUser: async (
       _: any,
-      { name, email, password }: any,
-      { dataSources }: any
+      { name, email, password }: any
     ) => {
       try {
         const user = await User.create({ name, email, password })
@@ -69,11 +81,11 @@ export const resolvers = {
     updateUser: async (
       _: any,
       { id, name, email, password }: any,
-      { dataSources }: any
+      { user }: any
     ) => {
       return await User.findOneAndUpdate({ id }, { name, email, password })
     },
-    deleteUser: async (_: any, { id }: any, { dataSources }: any) => {
+    deleteUser: async (_: any, { id }: any, { user }: any) => {
       return await User.findOneAndDelete({ id })
     },
     createJob: async (
@@ -91,7 +103,7 @@ export const resolvers = {
         jobType,
         location
       }: any,
-      { dataSources }: any
+      { user }: any
     ) => {
       return await Job.create({
         name,
@@ -104,7 +116,8 @@ export const resolvers = {
         disciplines,
         jobDescription,
         jobType,
-        location
+        location,
+        user
       })
     },
     updateJob: async (

@@ -5,25 +5,21 @@ type User {
   id: ID!
   name: String!
   email: String!
-  createdAt: String!
-  updatedAt: String!
 }
 
 type Job {
   id: ID!
   name: String!
-  offerStartDate: String!
-  offerEndDate: String!
-  active: Boolean!
+  offerStartDate: String
+  offerEndDate: String
+  active: Boolean
   company: String!
-  ratePerHour: Float!
-  tools: [String!]!
-  disciplines: [String!]!
+  ratePerHour: Float
+  tools: [String]
+  disciplines: [String]
   jobDescription: String
-  jobType: String!
+  jobType: String
   location: String!
-  createdAt: String!
-  updatedAt: String!
 }
 
 type AuthPayload {
@@ -32,10 +28,11 @@ type AuthPayload {
 }
 
 type Query {
-  users: [User!]!
-  user(id: ID!): User!
-  jobs: [Job!]!
-  job(id: ID!): Job!
+  users: [User!]
+  user(id: ID!): User
+  jobs(query: String): [Job!]
+  job(id: ID!): Job
+  myPosts: [Job!]
 }
 
 type Mutation {

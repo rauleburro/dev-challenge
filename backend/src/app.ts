@@ -50,7 +50,8 @@ const initailizeApp = async (): Promise<express.Express> => {
           'DeleteJob',
           'UpdateJob',
           'DeleteUser',
-          'UpdateUser'
+          'UpdateUser',
+          'MyPosts'
         ]
 
         if (!allowedOperations.includes(req.body.operationName)) {
