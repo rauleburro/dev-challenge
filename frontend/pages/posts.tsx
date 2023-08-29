@@ -18,7 +18,7 @@ const Jobs = () => {
   }, []);
 
   return (
-    <Dashboard search={<Search search={search} />}>
+    <Dashboard >
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-3 flex flex-row justify-between">
           <h1 className="col-span-3 text-3xl font-bold text-gray-700 dark:text-white">

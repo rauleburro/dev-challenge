@@ -1,4 +1,11 @@
-import { ErrorMessage, Field, Form, Formik, FormikErrors } from "formik";
+import {
+  ErrorMessage,
+  Field,
+  FieldArray,
+  Form,
+  Formik,
+  FormikErrors,
+} from "formik";
 import Dashboard from "../dashboard";
 import Link from "next/link";
 import Button from "@/components/Button";
@@ -6,6 +13,8 @@ import CustomField from "@/components/CustomField";
 import { gql, useMutation } from "@apollo/client";
 import { use, useEffect } from "react";
 import { useRouter } from "next/router";
+import CustomArrayField from "@/components/CustomArrayField";
+import CustomSelectField from "@/components/CustomSelectField";
 
 enum JobType {
   Remote = "Remote",
@@ -124,21 +133,45 @@ const CreateJob = () => {
                 return errors;
               }}
             >
-              {({ isSubmitting }) => (
+              {({ isSubmitting, values }) => (
                 <Form className="space-y-8">
                   <CustomField label="Name" name="name" type="text" />
+                  <CustomField label="Offer start date" name="offerStartDate" type="date" />
+                  <CustomField label="Offer end date" name="offerEndDate" type="date" />
                   <CustomField label="Company" name="company" type="text" />
-                  <CustomField label="Location" name="location" type="text" />
                   <CustomField
                     label="Rate per hour"
                     name="ratePerHour"
                     type="number"
                   />
+                  <CustomArrayField
+                    label="Tools"
+                    name="tools"
+                    type="text"
+                    values={values}
+                  />
+
+                  <CustomArrayField
+                    label="Disciplines"
+                    name="disciplines"
+                    type="text"
+                    values={values}
+                  />
+
                   <CustomField
                     label="Job description"
                     name="jobDescription"
                     type="text"
                   />
+                  <CustomSelectField
+                    label="Job type"
+                    name="jobType"
+                    options={
+                      Object.keys(JobType) as Array<string>
+                    }
+                  />
+                  <CustomField label="Location" name="location" type="text" />
+
                   <Button
                     type="submit"
                     text="Create job"
