@@ -17,8 +17,6 @@ const GET_JOB = gql`
       jobDescription
       jobType
       location
-      createdAt
-      updatedAt
     }
   }
 `;

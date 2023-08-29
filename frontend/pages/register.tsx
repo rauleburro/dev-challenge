@@ -1,5 +1,6 @@
 import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
+import { login } from "@/store/authSlice";
 import { gql, useMutation } from "@apollo/client";
 import { Field, Form, Formik, FormikErrors } from "formik";
 import Image from "next/image";
@@ -11,9 +12,12 @@ import { useDispatch } from "react-redux";
 const CREATE_USER = gql`
   mutation CreateUser($name: String!, $email: String!, $password: String!) {
     createUser(name: $name, email: $email, password: $password) {
-      id
-      name
-      email
+      token
+      user {
+        id
+        name
+        email
+      }
     }
   }
 `;
@@ -28,6 +32,7 @@ interface CreateUserFormValues {
 const Register = () => {
   const [createUser, { data, loading, error }] = useMutation(CREATE_USER);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const initialValues: CreateUserFormValues = {
     name: "",
@@ -38,9 +43,10 @@ const Register = () => {
 
   useEffect(() => {
     if (data) {
-      router.push("/login");
+      dispatch(login(data.createUser));
+      router.push("/jobs");
     }
-  }, [data, router]);
+  }, [data, dispatch, router]);
 
   return (
     <div className="relative py-16">

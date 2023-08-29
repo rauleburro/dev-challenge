@@ -3,8 +3,8 @@ import Dashboard from "../dashboard";
 import Link from "next/link";
 
 const GET_JOBS = gql`
-  query Jobs {
-    jobs {
+  query Jobs($query: String) {
+    jobs(query: $query) {
       id
       name
       offerStartDate
@@ -17,15 +17,14 @@ const GET_JOBS = gql`
       jobDescription
       jobType
       location
-      createdAt
-      updatedAt
     }
   }
 `;
 
 const Jobs = () => {
-  const { loading, error, data } = useQuery(GET_JOBS);
-
+  const { loading, error, data } = useQuery(GET_JOBS, {
+    variables: { query: "" },
+  });
   if (loading) return <p>Loading...</p>;
 
   if (error) return <p>Error: {error.message}</p>;
@@ -38,9 +37,7 @@ const Jobs = () => {
             Jobs
           </h1>
           <Link href="/jobs/create">
-            <button
-              className="relative flex h-11  items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
-            >
+            <button className="relative flex h-11  items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95">
               <span className="relative text-base font-semibold text-white dark:text-dark">
                 Create Job
               </span>
