@@ -11,7 +11,14 @@ import CustomField from "@/components/CustomField";
 
 const LOGIN = gql`
   mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password)
+    login(email: $email, password: $password) {
+      token
+      user {
+        email
+        id
+        name
+      }
+    }
   }
 `;
 
