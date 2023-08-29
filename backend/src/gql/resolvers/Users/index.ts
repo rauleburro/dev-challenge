@@ -35,7 +35,8 @@ export const resolvers = {
           expiresIn: '1d'
         })
         return {
-          token
+          token,
+          user
         }
       } catch (err) {
         console.log(err)
@@ -48,10 +49,11 @@ export const resolvers = {
     ) => {
       try {
         const user = await User.create({ name, email, password })
+        const token = jwt.sign(user.toJSON(), config.jwt.secret, {
+          expiresIn: '1d'
+        })
         return {
-          token: jwt.sign(user.toJSON(), config.jwt.secret, {
-            expiresIn: '1d'
-          }),
+          token,
           user
         }
       } catch (err) {
