@@ -1,6 +1,9 @@
+import { selectUser } from "@/store/authSlice";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 export default function Home() {
+  const user = useSelector(selectUser);
   return (
     <>
       <header>
@@ -65,24 +68,37 @@ export default function Home() {
                   </ul>
                 </div>
 
-                <div className="w-full space-y-2 border-primary/10 dark:border-gray-700 flex flex-col -ml-1 sm:flex-row lg:space-y-0 md:w-max lg:border-l">
-                  <Link
-                    href="/register"
-                    className="relative flex h-9 ml-auto items-center justify-center sm:px-6 before:absolute before:inset-0 before:rounded-full focus:before:bg-primary/10 dark:focus:before:bg-primaryLight/10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
-                  >
-                    <span className="relative text-sm font-semibold text-primary dark:text-primaryLight">
-                      Sign Up
-                    </span>
-                  </Link>
-                  <Link
-                    href="/login"
-                    className="relative flex h-9 ml-auto items-center justify-center sm:px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary dark:before:bg-primaryLight before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
-                  >
-                    <span className="relative text-sm font-semibold text-white dark:text-gray-900">
-                      Login
-                    </span>
-                  </Link>
-                </div>
+                {!user ? (
+                  <div className="w-full space-y-2 border-primary/10 dark:border-gray-700 flex flex-col -ml-1 sm:flex-row lg:space-y-0 md:w-max lg:border-l">
+                    <Link
+                      href="/register"
+                      className="relative flex h-9 ml-auto items-center justify-center sm:px-6 before:absolute before:inset-0 before:rounded-full focus:before:bg-primary/10 dark:focus:before:bg-primaryLight/10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
+                    >
+                      <span className="relative text-sm font-semibold text-primary dark:text-primaryLight">
+                        Sign Up
+                      </span>
+                    </Link>
+                    <Link
+                      href="/login"
+                      className="relative flex h-9 ml-auto items-center justify-center sm:px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary dark:before:bg-primaryLight before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
+                    >
+                      <span className="relative text-sm font-semibold text-white dark:text-gray-900">
+                        Login
+                      </span>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="w-full space-y-2 border-primary/10 dark:border-gray-700 flex flex-col -ml-1 sm:flex-row lg:space-y-0 md:w-max lg:border-l">
+                    <Link
+                      href="/posts"
+                      className="relative flex h-9 ml-auto items-center justify-center sm:px-6 before:absolute before:inset-0 before:rounded-full focus:before:bg-primary/10 dark:focus:before:bg-primaryLight/10 before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
+                    >
+                      <span className="relative text-sm font-semibold text-primary dark:text-primaryLight">
+                        My posts
+                      </span>
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
           </div>

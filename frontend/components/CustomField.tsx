@@ -17,7 +17,7 @@ const CustomField = ({ label, name, type }: CustomFieldProps) => {
         type={type}
         name={name}
         id={name}
-        className="focus:outline-none block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-3 text-gray-600 transition duration-300 invalid:ring-2 invalid:ring-red-400 focus:ring-2 focus:ring-cyan-300"
+        className="focus:outline-none block w-full rounded-md border border-gray-200 dark:border-gray-600 bg-transparent px-4 py-3 text-gray-600 dark:text-gray-100 transition duration-300 invalid:ring-2 invalid:ring-red-400 focus:ring-2 focus:ring-cyan-300"
       />
       <ErrorMessage name={name} component={"div"} />
     </div>
