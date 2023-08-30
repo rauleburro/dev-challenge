@@ -1,60 +1,60 @@
-# TheXPlace code challenge
+# TheXPlace code challenge: Execution Instructions
 
-Hi :wave: I’m Juan, a self-taught nomad game developer and I’m currently seeking for new job opportunities as **Senior Software Engineer**. I would love my new job to be **remote** so I can continue traveling around the world, but I will also consider **hybrid** positions.
-I’ve solid knowledge and experience using **Unity, Python and C++**.
+Welcome to the Challenge project! This repository contains the source code for the frontend (React) and backend (Node.js) of a challenge. Below are the steps to run the project using Docker Compose.
 
-## Can you help Juan find his dream job?
+## Prerequisites
 
-The proposal is to create an app where Juan and other candidates can search and apply for jobs according to their tools, location, area and salary.
+Before you begin, make sure you have the following components installed on your system:
 
-## What should you include?
+1. [Docker](https://www.docker.com/get-started): Ensure Docker is installed and running on your machine.
 
-_For the applicant user_
+## Steps to Run the Project
 
-- [ ] Give the ability to search jobs.
-- [ ] Give the ability to apply to jobs.
+Follow these steps to run the frontend and backend project using Docker Compose:
 
-_For the recruiter user_
+1. **Clone the Repository:**
 
-- [ ] Give the ability to publish jobs.
+   Clone this repository to your local machine using the following command:
 
-## Dataset example
+   ```bash
+   git clone <repository_URL>
+   ```
 
-We provide you a `dataset.json` file with some jobs. Anyway here it's the structure.
+2. **Navigate to Project Directory:**
 
-```
-[
-    {
-        name: String,
-        offerStartDate: String,
-        offerEndDate: String,
-        active: Boolean,
-        company: String,
-        ratePerHour: Number,
-        tools: Array<String>,
-        disciplines: Array<String>,
-        jobDescription: String,
-        jobType: String
-        location: String,
-    }
-]
-```
+   Navigate to the cloned project directory:
 
-## Conditions
+   ```bash
+   cd challenge-frontend-backend
+   ```
 
-Tech Stack: We encourage you to use one of the following to develop the solution: ReactJS, NextJS, GraphQL and NodeJS.
+3. **Build and Run with Docker Compose:**
 
-Timing: We will send you this test and ask you to send it back within **the next 5 days**.
+   Run the following command to build and run the Docker containers using Docker Compose:
 
-Deliverables: Share with us the github repository once you finished, and include on the readme file all neccerary information to run the application.
+   ```bash
+   docker compose up -d --build
+   ```
 
-We are going to check:
+   This will build the Docker images and run the containers in the background.
 
-- :tada: Functionality
-- :bulb: Creativity
-- :star: Best practices
-- :wrench: Tools used
-- :100: Code quality
+4. **Access the Application:**
 
-Have fun coding!
-TheXPlace team.
+   Once the containers are up and running, you can access the frontend application through your web browser at `http://localhost:3000`.
+
+5. **Stop and Remove Containers:**
+
+   To stop and remove the created containers, execute:
+
+   ```bash
+   docker-compose down
+   ```
+
+   This will stop and remove the containers, but it won't delete the Docker images or volumes.
+
+## Additional Notes
+
+- Ensure that the ports used in the project (e.g., port 3000 for the frontend and port 4000 for the backend) are not being used by other services on your machine.
+- If you want to make changes to the code, the containers should automatically reflect those changes after saving the corresponding files.
+
+You're all set! You should now have the frontend and backend project running in Docker containers. If you encounter any issues, make sure to check the log messages and possible solutions in the repository. Enjoy exploring the Challenge project!
