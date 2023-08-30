@@ -2,7 +2,7 @@ import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
 import CustomSelectField from "@/components/CustomSelectField";
 import { login } from "@/store/authSlice";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { Field, Form, Formik, FormikErrors } from "formik";
 import Image from "next/image";
 import Link from "next/link";

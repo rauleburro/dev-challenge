@@ -1,27 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Formik, Form, Field, ErrorMessage, FormikErrors } from "formik";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import * as AuthSlice from "@/store/authSlice";
 import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
-
-const LOGIN = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
-      token
-      user {
-        email
-        id
-        name
-        role
-      }
-    }
-  }
-`;
+import { LOGIN } from "@/graphql/graphql";
 
 interface LoginFormValues {
   email: string;

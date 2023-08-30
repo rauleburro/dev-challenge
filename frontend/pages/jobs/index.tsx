@@ -1,4 +1,3 @@
-import { gql, useQuery } from "@apollo/client";
 import Dashboard from "../dashboard";
 import Link from "next/link";
 import Search from "@/components/Search";
@@ -26,7 +25,7 @@ const Jobs = () => {
             Jobs
           </h1>
           <Link href="/jobs/create">
-            {user && user.role == 'Recruiter' && (
+            {user && user.role == "Recruiter" && (
               <Button
                 text="Post a job"
                 type="button"

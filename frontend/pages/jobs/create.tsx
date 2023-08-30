@@ -10,11 +10,12 @@ import Dashboard from "../dashboard";
 import Link from "next/link";
 import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { use, useEffect } from "react";
 import { useRouter } from "next/router";
 import CustomArrayField from "@/components/CustomArrayField";
 import CustomSelectField from "@/components/CustomSelectField";
+import { CREATE_JOB } from "@/graphql/graphql";
 
 enum JobType {
   Remote = "Remote",
@@ -36,37 +37,6 @@ interface CreeateJobFormValues {
   location: string;
 }
 
-const CREATE_JOB = gql`
-  mutation CreateJob(
-    $name: String!
-    $offerStartDate: String!
-    $offerEndDate: String!
-    $active: Boolean!
-    $company: String!
-    $ratePerHour: Float!
-    $tools: [String!]!
-    $disciplines: [String!]!
-    $jobDescription: String!
-    $jobType: String!
-    $location: String!
-  ) {
-    createJob(
-      name: $name
-      offerStartDate: $offerStartDate
-      offerEndDate: $offerEndDate
-      active: $active
-      company: $company
-      ratePerHour: $ratePerHour
-      tools: $tools
-      disciplines: $disciplines
-      jobDescription: $jobDescription
-      jobType: $jobType
-      location: $location
-    ) {
-      id
-    }
-  }
-`;
 
 const CreateJob = () => {
   const router = useRouter();
@@ -136,8 +106,16 @@ const CreateJob = () => {
               {({ isSubmitting, values }) => (
                 <Form className="space-y-8">
                   <CustomField label="Name" name="name" type="text" />
-                  <CustomField label="Offer start date" name="offerStartDate" type="date" />
-                  <CustomField label="Offer end date" name="offerEndDate" type="date" />
+                  <CustomField
+                    label="Offer start date"
+                    name="offerStartDate"
+                    type="date"
+                  />
+                  <CustomField
+                    label="Offer end date"
+                    name="offerEndDate"
+                    type="date"
+                  />
                   <CustomField label="Company" name="company" type="text" />
                   <CustomField
                     label="Rate per hour"
@@ -166,9 +144,7 @@ const CreateJob = () => {
                   <CustomSelectField
                     label="Job type"
                     name="jobType"
-                    options={
-                      Object.keys(JobType) as Array<string>
-                    }
+                    options={Object.keys(JobType) as Array<string>}
                   />
                   <CustomField label="Location" name="location" type="text" />
 

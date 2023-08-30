@@ -1,26 +1,7 @@
 import Job from "@/models/Job";
-import { gql, useQuery } from "@apollo/client";
-import Link from "next/link";
+import { useQuery } from "@apollo/client";
 import JobItem from "./JobItem";
-
-const GET_JOBS = gql`
-  query Jobs($query: String) {
-    jobs(query: $query) {
-      id
-      name
-      offerStartDate
-      offerEndDate
-      active
-      company
-      ratePerHour
-      tools
-      disciplines
-      jobDescription
-      jobType
-      location
-    }
-  }
-`;
+import { GET_JOBS } from "@/graphql/graphql";
 
 interface JobListProps {
   query: string;
@@ -37,10 +18,7 @@ const JobList = ({ query }: JobListProps) => {
 
   return (
     <>
-      {data &&
-        data.jobs.map((job: Job) => (
-          <JobItem key={job.id} job={job} />
-        ))}
+      {data && data.jobs.map((job: Job) => <JobItem key={job.id} job={job} />)}
     </>
   );
 };
