@@ -8,11 +8,11 @@ interface SearchProps {
 const Search = ({ search, initial }: SearchProps) => {
   return (
     <>
-      <div className="flex flex-1 items-center text-gray-400 focus-within:text-cyan-400 m-5">
-        <span className="absolute left-8 flex h-6 items-center border-r border-gray-300 pr-3 dark:border-gray-700">
+      <div className="flex flex-1 items-center text-gray-400 focus-within:text-cyan-400 m-5 rounded-xl border border-gray-300 focus-within:border-cyan-300">
+        <span className="left-8 flex h-6 items-center border-r border-gray-300 pr-3 dark:border-gray-700 focus-within:border-cyan-300">
           <svg
             xmlns="http://ww50w3.org/2000/svg"
-            className="w-4 fill-current"
+            className="ml-4 w-4 fill-current"
             viewBox="0 0 35.997 36.004"
           >
             <path
@@ -29,7 +29,7 @@ const Search = ({ search, initial }: SearchProps) => {
           id="leadingIcon"
           placeholder="Search here"
           value={initial}
-          className="outline-none w-full rounded-xl border border-gray-300 py-2.5 pl-14 pr-4 text-sm text-gray-600 transition focus:border-cyan-300 dark:bg-gray-900 dark:border-gray-700"
+          className="outline-none w-full  py-2.5 pl-4 pr-4 text-sm text-gray-600 transition rounded-xl dark:bg-gray-900 dark:border-gray-700"
         />
       </div>
     </>
