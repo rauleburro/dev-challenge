@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Formik, Form, Field, ErrorMessage, FormikErrors } from "formik";
+import { Formik, Form, Field, ErrorMessage, FormikErrors, FormikValues } from "formik";
 import { useMutation, useQuery } from "@apollo/client";
-import { useEffect } from "react";
+import { use, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import * as AuthSlice from "@/store/authSlice";
@@ -31,6 +31,16 @@ const Login = () => {
       router.push("/jobs");
     }
   }, [data, dispatch, router]);
+
+  const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikValues) => {
+    login({
+      variables: {
+        email: values.email,
+        password: values.password,
+      },
+    });
+    setSubmitting(false);
+  };
 
   return (
     <div className="relative py-16">
@@ -74,15 +84,7 @@ const Login = () => {
                   }
                   return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-                  login({
-                    variables: {
-                      email: values.email,
-                      password: values.password,
-                    },
-                  });
-                  setSubmitting(false);
-                }}
+                onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
                   <Form className="space-y-8">

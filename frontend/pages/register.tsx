@@ -1,9 +1,10 @@
 import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
 import CustomSelectField from "@/components/CustomSelectField";
+import { CREATE_USER } from "@/graphql/graphql";
 import { login } from "@/store/authSlice";
 import { useMutation } from "@apollo/client";
-import { Field, Form, Formik, FormikErrors } from "formik";
+import { Field, Form, Formik, FormikErrors, FormikValues } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,24 +16,6 @@ enum Role {
   Recruiter = "Recruiter",
 }
 
-const CREATE_USER = gql`
-  mutation CreateUser(
-    $name: String!
-    $email: String!
-    $password: String!
-    $role: String!
-  ) {
-    createUser(name: $name, email: $email, password: $password, role: $role) {
-      token
-      user {
-        id
-        name
-        email
-        role
-      }
-    }
-  }
-`;
 
 interface CreateUserFormValues {
   name: string;
@@ -61,6 +44,18 @@ const Register = () => {
       router.push("/jobs");
     }
   }, [data, dispatch, router]);
+
+  const handleSubmit = (values: CreateUserFormValues, { setSubmitting }: FormikValues) => {
+    createUser({
+      variables: {
+        name: values.name,
+        email: values.email,
+        password: values.password,
+        role: values.role,
+      },
+    });
+    setSubmitting(false);
+  }
 
   return (
     <div className="relative py-16">
@@ -113,16 +108,7 @@ const Register = () => {
                   }
                   return errors;
                 }}
-                onSubmit={(values, { setSubmitting }) => {
-                  createUser({
-                    variables: {
-                      name: values.name,
-                      email: values.email,
-                      password: values.password,
-                      role: values.role,
-                    },
-                  });
-                }}
+                onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
                   <Form className="space-y-8">

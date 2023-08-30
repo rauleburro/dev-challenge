@@ -5,6 +5,7 @@ import {
   Form,
   Formik,
   FormikErrors,
+  FormikValues,
 } from "formik";
 import Dashboard from "../dashboard";
 import Link from "next/link";
@@ -37,7 +38,6 @@ interface CreeateJobFormValues {
   location: string;
 }
 
-
 const CreateJob = () => {
   const router = useRouter();
   const [createJob, { data, loading, error }] = useMutation(CREATE_JOB);
@@ -68,6 +68,28 @@ const CreateJob = () => {
     }
   }, [error]);
 
+  const handleSubmit = (
+    values: CreeateJobFormValues,
+    { setSubmitting }: FormikValues
+  ) => {
+    createJob({
+      variables: {
+        name: values.name,
+        offerStartDate: values.offerStartDate,
+        offerEndDate: values.offerEndDate,
+        active: values.active,
+        company: values.company,
+        ratePerHour: values.ratePerHour,
+        tools: values.tools,
+        disciplines: values.disciplines,
+        jobDescription: values.jobDescription,
+        jobType: values.jobType,
+        location: values.location,
+      },
+    });
+    setSubmitting(false);
+  };
+
   return (
     <Dashboard>
       <>
@@ -78,23 +100,7 @@ const CreateJob = () => {
             </h2>
             <Formik
               initialValues={initialValues}
-              onSubmit={(values, { setSubmitting }) => {
-                createJob({
-                  variables: {
-                    name: values.name,
-                    offerStartDate: values.offerStartDate,
-                    offerEndDate: values.offerEndDate,
-                    active: values.active,
-                    company: values.company,
-                    ratePerHour: values.ratePerHour,
-                    tools: values.tools,
-                    disciplines: values.disciplines,
-                    jobDescription: values.jobDescription,
-                    jobType: values.jobType,
-                    location: values.location,
-                  },
-                });
-              }}
+              onSubmit={handleSubmit}
               validate={(values: CreeateJobFormValues) => {
                 const errors: FormikErrors<CreeateJobFormValues> = {};
                 if (!values.name) {
