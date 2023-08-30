@@ -2,13 +2,16 @@ import { logout, selectUser } from '@/store/authSlice'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect } from 'react'
+import { forwardRef, useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import AsideMenuItem from './AsideMenuItem'
 
-interface AsideProps {}
+interface AsideProps {
+	show: boolean
+	hideFunction: () => void
+}
 
-const Aside = ({}: AsideProps) => {
+const Aside = ({ show = false, hideFunction = () => {} }) => {
 	const dispatch = useDispatch()
 	const router = useRouter()
 	const handleLogout = useCallback(() => {
@@ -19,7 +22,11 @@ const Aside = ({}: AsideProps) => {
 	const user = useSelector(selectUser)
 
 	return (
-		<aside className="fixed top-0 z-10 ml-[-100%] flex h-screen w-full flex-col justify-between border-r bg-white px-6 pb-3 transition duration-300 dark:border-gray-700 dark:bg-gray-800 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
+		<div
+			className={` ${
+				!show ? 'invisible' : ''
+			} lg:visible fixed top-0 z-10 flex h-screen w-3/4 flex-col justify-between border-r bg-white px-6 pb-3 transition duration-300 dark:border-gray-700 dark:bg-gray-800 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]`}
+		>
 			<div>
 				<div className="my-5 flex w-full justify-between lg:w-auto">
 					<Link href="/" aria-label="logo" className="flex items-center space-x-2">
@@ -29,6 +36,9 @@ const Aside = ({}: AsideProps) => {
 						</div>
 						<span className="text-base font-bold text-gray-600 dark:text-white">Jobify</span>
 					</Link>
+					<button className="lg:hidden" onClick={hideFunction}>
+						x
+					</button>
 				</div>
 				{user && (
 					<div className="mt-8 text-center">
@@ -78,7 +88,7 @@ const Aside = ({}: AsideProps) => {
 					</button>
 				</div>
 			)}
-		</aside>
+		</div>
 	)
 }
 

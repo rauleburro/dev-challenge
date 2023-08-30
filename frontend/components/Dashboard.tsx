@@ -1,6 +1,7 @@
 import Aside from '@/components/Aside'
 import { selectToken } from '@/store/authSlice'
 import Image from 'next/image'
+import { useState } from 'react'
 import { useSelector } from 'react-redux'
 
 interface DashboardProps {
@@ -9,13 +10,19 @@ interface DashboardProps {
 }
 
 const Dashboard = ({ search, children }: DashboardProps) => {
+	const [showAside, setShowAside] = useState(false)
+
+	const handleClick = () => {
+		setShowAside(!showAside)
+	}
+
 	return (
 		<>
-			<Aside />
+			<Aside show={showAside} hideFunction={handleClick} />
 			<div className={`mb-6 ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%]`}>
 				<div className="sticky top-0 flex h-16 flex-1 border-b bg-white dark:border-gray-700 dark:bg-gray-800 lg:py-2.5">
 					<div className="flex flex-1 items-center 2xl:container">
-						<button className="h-16 w-16 border-r dark:border-gray-700 dark:text-gray-300 lg:hidden">
+						<button className="h-16 w-16 border-r dark:border-gray-700 dark:text-gray-300 lg:hidden" onClick={handleClick}>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								className="mx-4 my-auto h-6 w-6"
