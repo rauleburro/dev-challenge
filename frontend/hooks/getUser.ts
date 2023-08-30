@@ -1,10 +1,10 @@
-import { GET_USER } from "@/graphql/graphql";
-import { useQuery } from "@apollo/client";
+import { GET_USER } from '@/graphql/graphql'
+import { useQuery } from '@apollo/client'
 
 const useGetUser = (userId: number) => {
-  return useQuery(GET_USER, {
-    variables: { userId },
-  });
-};
+	return useQuery(GET_USER, {
+		variables: { userId },
+	})
+}
 
-export default useGetUser;
+export default useGetUser

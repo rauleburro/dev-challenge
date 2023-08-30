@@ -1,9 +1,9 @@
 interface GuardProps {
-  children: JSX.Element;
+	children: JSX.Element
 }
 
 const Guard = ({ children }: GuardProps) => {
-  return <>{children}</>;
-};
+	return <>{children}</>
+}
 
-export default Guard;
+export default Guard
