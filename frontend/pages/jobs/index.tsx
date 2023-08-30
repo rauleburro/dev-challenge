@@ -1,4 +1,4 @@
-import Dashboard from "../dashboard";
+import Dashboard from "../../components/Dashboard";
 import Link from "next/link";
 import Search from "@/components/Search";
 import { useCallback, useState } from "react";

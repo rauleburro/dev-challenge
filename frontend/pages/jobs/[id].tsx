@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 
-import Dashboard from "../dashboard";
+import Dashboard from "../../components/Dashboard";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/store/authSlice";
 import { useCallback } from "react";

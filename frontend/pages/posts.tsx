@@ -4,7 +4,7 @@ import Button from "@/components/Button";
 import { useSelector } from "react-redux";
 import { selectUser } from "@/store/authSlice";
 import PostList from "@/components/PostsList";
-import Dashboard from "./dashboard";
+import Dashboard from "../components/Dashboard";
 
 const Jobs = () => {
   const [query, setQuery] = useState("");

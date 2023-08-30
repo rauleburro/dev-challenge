@@ -7,7 +7,7 @@ import {
   FormikErrors,
   FormikValues,
 } from "formik";
-import Dashboard from "../dashboard";
+import Dashboard from "../../components/Dashboard";
 import Link from "next/link";
 import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
