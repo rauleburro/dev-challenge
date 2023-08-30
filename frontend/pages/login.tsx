@@ -16,7 +16,7 @@ const LOGIN = gql`
       user {
         email
         id
-        name,
+        name
         role
       }
     }
@@ -49,16 +49,21 @@ const Login = () => {
     <div className="relative py-16">
       <div className="container relative m-auto px-6 text-gray-500 md:px-12 xl:px-40">
         <div className="m-auto space-y-8 md:w-8/12 lg:w-6/12 xl:w-6/12">
-          <Link href="/">
-            <Image
-              src="images/tailus.svg"
-              loading="lazy"
-              width={144}
-              height={16}
-              className="ml-4 w-36"
-              alt="tailus logo"
-            />
-          </Link>
+          <div className="w-full flex justify-between lg:w-auto my-5">
+            <Link
+              href="/"
+              aria-label="logo"
+              className="flex space-x-2 items-center"
+            >
+              <div aria-hidden="true" className="flex space-x-1">
+                <div className="h-4 w-4 rounded-full bg-gray-900 dark:bg-gray-200"></div>
+                <div className="h-6 w-2 bg-primary dark:bg-primaryLight"></div>
+              </div>
+              <span className="text-base font-bold text-gray-600 dark:text-white">
+                Jobify
+              </span>
+            </Link>
+          </div>
           <div className="rounded-3xl border border-gray-100 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-2xl shadow-gray-600/10 backdrop-blur-2xl">
             <div className="p-8 py-12 sm:p-16">
               <h2 className="mb-8 text-2xl font-bold text-gray-800 dark:text-white">
@@ -117,7 +122,6 @@ const Login = () => {
             </div>
           </div>
           <div className="space-x-4 text-center text-gray-500">
-            <span>&copy; tailus</span>
             <a href="#" className="text-sm hover:text-primary">
               Contact
             </a>

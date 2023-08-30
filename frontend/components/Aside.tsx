@@ -21,6 +21,17 @@ const Aside = ({}: AsideProps) => {
   return (
     <aside className="fixed top-0 z-10 ml-[-100%] flex h-screen w-full flex-col justify-between border-r bg-white px-6 pb-3 transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%] dark:bg-gray-800 dark:border-gray-700">
       <div>
+        <div className="w-full flex justify-between lg:w-auto my-5">
+          <Link href="/" aria-label="logo" className="flex space-x-2 items-center">
+            <div aria-hidden="true" className="flex space-x-1">
+              <div className="h-4 w-4 rounded-full bg-gray-900 dark:bg-gray-200"></div>
+              <div className="h-6 w-2 bg-primary dark:bg-primaryLight"></div>
+            </div>
+            <span className="text-base font-bold text-gray-600 dark:text-white">
+              Jobify
+            </span>
+          </Link>
+        </div>
         {user && (
           <div className="mt-8 text-center">
             <Image
@@ -48,7 +59,7 @@ const Aside = ({}: AsideProps) => {
             href="/jobs"
             selected={router.pathname === "/jobs"}
           />
-          {user && user.role === 'Recruiter' && (
+          {user && user.role === "Recruiter" && (
             <AsideMenuItem
               label="My posts"
               href="/posts"
