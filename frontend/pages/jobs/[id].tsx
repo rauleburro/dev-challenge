@@ -34,13 +34,13 @@ const JobPage = () => {
 	return (
 		<Dashboard>
 			<div className="flex h-[80vh] w-full items-center justify-center rounded-xl">
-				<div className="h-full w-full space-y-6 group p-4 rounded-3xl bg-white border border-gray-200/50  dark:shadow-none dark:border-gray-700 dark:bg-gray-800 bg-opacity-50 shadow-2xl shadow-gray-600/10 hover:border-primary dark:hover:border-primaryDark">
+				<div className="group h-full w-full space-y-6 rounded-3xl border border-gray-200/50 bg-white bg-opacity-50  p-4 shadow-2xl shadow-gray-600/10 hover:border-primary dark:border-gray-700 dark:bg-gray-800 dark:shadow-none dark:hover:border-primaryDark">
 					<div className="">
 						<h3 className="text-3xl font-bold text-gray-700 dark:text-white">{job.name}</h3>
 						{user?.role == 'Talent' && (
 							<>
 								{job.applied ? (
-									<p className="text-green-600 px-4 py-2 rounded-md ">Applied</p>
+									<p className="rounded-md px-4 py-2 text-green-600 ">Applied</p>
 								) : (
 									<Button text="Apply" type="button" disabled={applyLoading} onClick={handleApply} />
 								)}

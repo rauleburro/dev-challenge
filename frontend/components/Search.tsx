@@ -8,8 +8,8 @@ interface SearchProps {
 const Search = ({ search, initial }: SearchProps) => {
 	return (
 		<>
-			<div className="flex flex-1 items-center text-gray-400 focus-within:text-cyan-400 m-5 rounded-xl border border-gray-300 focus-within:border-cyan-300">
-				<span className="left-8 flex h-6 items-center border-r border-gray-300 pr-3 dark:border-gray-700 focus-within:border-cyan-300">
+			<div className="m-5 flex flex-1 items-center rounded-xl border border-gray-300 text-gray-400 focus-within:border-cyan-300 focus-within:text-cyan-400">
+				<span className="left-8 flex h-6 items-center border-r border-gray-300 pr-3 focus-within:border-cyan-300 dark:border-gray-700">
 					<svg xmlns="http://ww50w3.org/2000/svg" className="ml-4 w-4 fill-current" viewBox="0 0 35.997 36.004">
 						<path
 							id="Icon_awesome-search"
@@ -25,7 +25,7 @@ const Search = ({ search, initial }: SearchProps) => {
 					id="leadingIcon"
 					placeholder="Search here"
 					value={initial}
-					className="outline-none w-full  py-2.5 pl-4 pr-4 text-sm text-gray-600 transition rounded-xl dark:bg-gray-900 dark:border-gray-700"
+					className="w-full rounded-xl  py-2.5 pl-4 pr-4 text-sm text-gray-600 outline-none transition dark:border-gray-700 dark:bg-gray-900"
 				/>
 			</div>
 		</>

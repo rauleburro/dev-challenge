@@ -12,9 +12,9 @@ const IndexSearch = ({}: IndexSearchProps) => {
 	}, [router, search])
 	return (
 		<div>
-			<form action="" className="w-full mt-12">
-				<div className="relative flex items-center px-2 p-1 rounded-full bg-white dark:bg-gray-900 border dark:border-gray-700 border-primary/10 shadow-md md:p-2 lg:pr-3">
-					<div className="pl-6 py-3">
+			<form action="" className="mt-12 w-full">
+				<div className="relative flex items-center rounded-full border border-primary/10 bg-white p-1 px-2 shadow-md dark:border-gray-700 dark:bg-gray-900 md:p-2 lg:pr-3">
+					<div className="py-3 pl-6">
 						<svg
 							xmlns="http://ww50w3.org/2000/svg"
 							className="w-4 fill-blue-900/60 dark:fill-gray-400"
@@ -29,7 +29,7 @@ const IndexSearch = ({}: IndexSearchProps) => {
 					</div>
 					<input
 						placeholder="Game Designer"
-						className="w-full p-4 rounded-full placeholder-gray-400 dark:placeholder-white bg-transparent"
+						className="w-full rounded-full bg-transparent p-4 placeholder-gray-400 dark:placeholder-white"
 						type="text"
 						onChange={(e) => {
 							setSearch(e.target.value)
@@ -39,15 +39,15 @@ const IndexSearch = ({}: IndexSearchProps) => {
 						<button
 							type="button"
 							title="Find me a job"
-							className="relative h-12 w-20 sm:w-auto ml-auto sm:px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary dark:before:bg-primaryLight before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
+							className="relative ml-auto h-12 w-20 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:bg-primaryLight sm:w-auto sm:px-6"
 							onClick={handleClick}
 						>
-							<span className="relative hidden w-max text-white dark:text-gray-900 font-semibold md:block">
+							<span className="relative hidden w-max font-semibold text-white dark:text-gray-900 md:block">
 								Find me a job
 							</span>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
-								className="relative h-6 w-6 mx-auto text-white dark:text-gray-900 md:hidden"
+								className="relative mx-auto h-6 w-6 text-white dark:text-gray-900 md:hidden"
 								fill="none"
 								viewBox="0 0 24 24"
 								stroke="currentColor"

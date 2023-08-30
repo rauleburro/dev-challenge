@@ -12,10 +12,10 @@ const Dashboard = ({ search, children }: DashboardProps) => {
 	return (
 		<>
 			<Aside />
-			<div className={`ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]`}>
-				<div className="sticky top-0 h-16 border-b bg-white dark:bg-gray-800 dark:border-gray-700 lg:py-2.5 flex flex-1">
-					<div className="flex items-center 2xl:container flex-1">
-						<button className="h-16 w-16 border-r lg:hidden dark:border-gray-700 dark:text-gray-300">
+			<div className={`mb-6 ml-auto lg:w-[75%] xl:w-[80%] 2xl:w-[85%]`}>
+				<div className="sticky top-0 flex h-16 flex-1 border-b bg-white dark:border-gray-700 dark:bg-gray-800 lg:py-2.5">
+					<div className="flex flex-1 items-center 2xl:container">
+						<button className="h-16 w-16 border-r dark:border-gray-700 dark:text-gray-300 lg:hidden">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								className="mx-4 my-auto h-6 w-6"

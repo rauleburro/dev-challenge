@@ -96,7 +96,7 @@ const CreateJob = () => {
 	return (
 		<Dashboard>
 			<>
-				<div className="rounded-3xl border border-gray-100 bg-white dark:bg-gray-800 dark:border-gray-700 shadow-2xl shadow-gray-600/10 backdrop-blur-2xl">
+				<div className="rounded-3xl border border-gray-100 bg-white shadow-2xl shadow-gray-600/10 backdrop-blur-2xl dark:border-gray-700 dark:bg-gray-800">
 					<div className="p-8 py-12 sm:p-16">
 						<h2 className="mb-8 text-2xl font-bold text-gray-800 dark:text-white">Post a job</h2>
 						<Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validateSchema}>
