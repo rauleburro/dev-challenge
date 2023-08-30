@@ -1,12 +1,12 @@
 import { useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-
-import Dashboard from "../../components/Dashboard";
 import { useSelector } from "react-redux";
+import Dashboard from "../../components/Dashboard";
 import { selectUser } from "@/store/authSlice";
 import { useCallback } from "react";
 import Button from "@/components/Button";
 import { APPLY_JOB, GET_JOB } from "@/graphql/graphql";
+import DetailArrayField from "@/components/DetailArrayField";
 
 const JobPage = () => {
   const router = useRouter();
@@ -34,13 +34,12 @@ const JobPage = () => {
   if (error) return <p className="text-white">Error: {error.message}</p>;
 
   const { job } = data;
-  const isMine = user?.id === job?.user;
 
   return (
     <Dashboard>
       <div className="flex h-[80vh] w-full items-center justify-center rounded-xl">
         <div className="h-full w-full space-y-6 group p-4 rounded-3xl bg-white border border-gray-200/50  dark:shadow-none dark:border-gray-700 dark:bg-gray-800 bg-opacity-50 shadow-2xl shadow-gray-600/10 hover:border-primary dark:hover:border-primaryDark">
-          <div className="flex flex-row justify-between">
+          <div className="">
             <h3 className="text-3xl font-bold text-gray-700 dark:text-white">
               {job.name}
             </h3>
@@ -65,31 +64,16 @@ const JobPage = () => {
             {job.company}
           </h5>
           <span className="block text-gray-500 dark:text-gray-400">
-            {job.location}
+            {job.location} - {job.jobType}
           </span>
+
           <span className="block text-gray-500 dark:text-gray-400">
-            {job.offerStartDate}
+            Rate per hour: {job.ratePerHour} U$D
           </span>
-          <span className="block text-gray-500 dark:text-gray-400">
-            {job.offerEndDate}
-          </span>
-          <span className="block text-gray-500 dark:text-gray-400">
-            {job.active}
-          </span>
-          <span className="block text-gray-500 dark:text-gray-400">
-            {job.ratePerHour}
-          </span>
-          <span className="block text-gray-500 dark:text-gray-400">
-            {job.tools}
-          </span>
-          <span className="block text-gray-500 dark:text-gray-400">
-            {job.disciplines}
-          </span>
+          <DetailArrayField label="Tools" array={job.tools} />
+          <DetailArrayField label="Disciplines" array={job.disciplines} />
           <span className="block text-gray-500 dark:text-gray-400">
             {job.jobDescription}
-          </span>
-          <span className="block text-gray-500 dark:text-gray-400">
-            {job.jobType}
           </span>
         </div>
       </div>
