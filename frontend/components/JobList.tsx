@@ -16,7 +16,11 @@ const JobList = ({ query }: JobListProps) => {
 
 	if (error) return <p>Error: {error.message}</p>
 
-	return <>{data && data.jobs.map((job: Job) => <JobItem key={job.id} job={job} />)}</>
+	return (
+		<div className="mt-4 grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+			{data && data.jobs.map((job: Job) => <JobItem key={job.id} job={job} />)}
+		</div>
+	)
 }
 
 export default JobList

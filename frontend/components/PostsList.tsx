@@ -14,7 +14,11 @@ const PostList = ({ query }: PostListProps) => {
 
 	if (error) return <p>Error: {error.message}</p>
 
-	return <>{data && data.myPosts.map((job: Job) => <JobItem key={job.id} job={job} />)}</>
+	return (
+		<div className='mt-4 xl:grid-cols-4"> grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+			{data && data.myPosts.map((job: Job) => <JobItem key={job.id} job={job} />)}
+		</div>
+	)
 }
 
 export default PostList

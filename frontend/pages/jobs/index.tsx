@@ -27,9 +27,7 @@ const Jobs = () => {
 					)}
 				</Link>
 			</div>
-			<div className="mt-4 grid gap-4 md:grid-cols-3">
-				<JobList query={query} />
-			</div>
+			<JobList query={query} />
 		</Dashboard>
 	)
 }
