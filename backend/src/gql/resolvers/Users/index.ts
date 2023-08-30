@@ -54,12 +54,23 @@ export const resolvers = {
       try {
         const user = await User.findOne({ email })
         if (user == null) {
-          return null
+          throw new GraphQLError('User does not exist', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              http: { status: 400 }
+            }
+          })
         }
         const valid = await bcrypt.compare(password, user.password)
         if (!valid) {
-          return null
+          throw new GraphQLError('Password is incorrect', {
+            extensions: {
+              code: 'BAD_USER_INPUT',
+              http: { status: 400 }
+            }
+          })
         }
+
         const token = jwt.sign(user.toJSON(), config.jwt.secret, {
           expiresIn: '1d'
         })
@@ -69,6 +80,12 @@ export const resolvers = {
         }
       } catch (err) {
         console.log(err)
+        throw new GraphQLError('User does not exist', {
+          extensions: {
+            code: 'BAD_USER_INPUT',
+            http: { status: 400 }
+          }
+        })
       }
     },
     createUser: async (_: any, { name, email, password, role }: any) => {

@@ -1,14 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Formik, Form, Field, ErrorMessage, FormikErrors, FormikValues } from "formik";
-import { useMutation, useQuery } from "@apollo/client";
-import { use, useCallback, useEffect } from "react";
+import { Formik, Form, FormikValues } from "formik";
+import { useMutation } from "@apollo/client";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import * as AuthSlice from "@/store/authSlice";
 import Button from "@/components/Button";
 import CustomField from "@/components/CustomField";
 import { LOGIN } from "@/graphql/graphql";
+import * as Yup from "yup";
 
 interface LoginFormValues {
   email: string;
@@ -25,6 +26,11 @@ const Login = () => {
     password: "",
   };
 
+  const validateSchema = Yup.object({
+    email: Yup.string().email("Invalid email address").required("Required"),
+    password: Yup.string().required("Required"),
+  });
+
   useEffect(() => {
     if (data) {
       dispatch(AuthSlice.login(data.login));
@@ -32,7 +38,10 @@ const Login = () => {
     }
   }, [data, dispatch, router]);
 
-  const handleSubmit = (values: LoginFormValues, { setSubmitting }: FormikValues) => {
+  const handleSubmit = (
+    values: LoginFormValues,
+    { setSubmitting }: FormikValues
+  ) => {
     login({
       variables: {
         email: values.email,
@@ -68,22 +77,7 @@ const Login = () => {
               </h2>
               <Formik
                 initialValues={initialValues}
-                validate={(values: LoginFormValues) => {
-                  const errors: FormikErrors<LoginFormValues> = {};
-                  if (!values.email) {
-                    errors.email = "Required";
-                  } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                      values.email
-                    )
-                  ) {
-                    errors.email = "Invalid email address";
-                  }
-                  if (!values.password) {
-                    errors.password = "Required";
-                  }
-                  return errors;
-                }}
+                validationSchema={validateSchema}
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (

@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import CustomArrayField from "@/components/CustomArrayField";
 import CustomSelectField from "@/components/CustomSelectField";
 import { CREATE_JOB } from "@/graphql/graphql";
+import * as Yup from "yup";
 
 enum JobType {
   Remote = "Remote",
@@ -55,6 +56,19 @@ const CreateJob = () => {
     jobType: JobType.Remote,
     location: "",
   };
+
+  const validateSchema = Yup.object({
+    name: Yup.string().required("Required"),
+    offerStartDate: Yup.date(),
+    offerEndDate: Yup.date(),
+    company: Yup.string().required("Required"),
+    ratePerHour: Yup.number(),
+    tools: Yup.array().of(Yup.string()),
+    disciplines: Yup.array().of(Yup.string()),
+    jobDescription: Yup.string(),
+    jobType: Yup.string(),
+    location: Yup.string().required("Required"),
+  });
 
   useEffect(() => {
     if (data) {
@@ -101,13 +115,7 @@ const CreateJob = () => {
             <Formik
               initialValues={initialValues}
               onSubmit={handleSubmit}
-              validate={(values: CreeateJobFormValues) => {
-                const errors: FormikErrors<CreeateJobFormValues> = {};
-                if (!values.name) {
-                  errors.name = "Required";
-                }
-                return errors;
-              }}
+              validationSchema={validateSchema}
             >
               {({ isSubmitting, values }) => (
                 <Form className="space-y-8">

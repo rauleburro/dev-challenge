@@ -4,18 +4,17 @@ import CustomSelectField from "@/components/CustomSelectField";
 import { CREATE_USER } from "@/graphql/graphql";
 import { login } from "@/store/authSlice";
 import { useMutation } from "@apollo/client";
-import { Field, Form, Formik, FormikErrors, FormikValues } from "formik";
-import Image from "next/image";
+import { Form, Formik, FormikErrors, FormikValues } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import * as Yup from "yup";
 
 enum Role {
   Talent = "Talent",
   Recruiter = "Recruiter",
 }
-
 
 interface CreateUserFormValues {
   name: string;
@@ -38,6 +37,14 @@ const Register = () => {
     role: Role.Talent,
   };
 
+  const validateSchema = Yup.object({
+    email: Yup.string().email("Invalid email address").required("Required"),
+    name: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
+    confirmPassword: Yup.string().required("Required"),
+    role: Yup.string().required("Required"),
+  });
+
   useEffect(() => {
     if (data) {
       dispatch(login(data.createUser));
@@ -45,7 +52,10 @@ const Register = () => {
     }
   }, [data, dispatch, router]);
 
-  const handleSubmit = (values: CreateUserFormValues, { setSubmitting }: FormikValues) => {
+  const handleSubmit = (
+    values: CreateUserFormValues,
+    { setSubmitting }: FormikValues
+  ) => {
     createUser({
       variables: {
         name: values.name,
@@ -55,7 +65,7 @@ const Register = () => {
       },
     });
     setSubmitting(false);
-  }
+  };
 
   return (
     <div className="relative py-16">
@@ -83,31 +93,7 @@ const Register = () => {
               </h2>
               <Formik
                 initialValues={initialValues}
-                validate={(values: CreateUserFormValues) => {
-                  const errors: FormikErrors<CreateUserFormValues> = {};
-                  if (!values.email) {
-                    errors.email = "Required";
-                  } else if (
-                    !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(
-                      values.email
-                    )
-                  ) {
-                    errors.email = "Invalid email address";
-                  }
-                  if (!values.name) {
-                    errors.name = "Required";
-                  }
-                  if (!values.password) {
-                    errors.password = "Required";
-                  }
-                  if (!values.confirmPassword) {
-                    errors.confirmPassword = "Required";
-                  }
-                  if (values.password !== values.confirmPassword) {
-                    errors.confirmPassword = "Passwords do not match";
-                  }
-                  return errors;
-                }}
+                validationSchema={validateSchema}
                 onSubmit={handleSubmit}
               >
                 {({ isSubmitting }) => (
